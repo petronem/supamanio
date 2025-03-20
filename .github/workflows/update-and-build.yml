@@ -32,7 +32,7 @@ jobs:
         run: |
           git add volumes/
           git commit -m "Update volumes/ from Supabase fork" || echo "No changes to commit"
-          git push origin main
+          git push https://${{ secrets.PAT }}@github.com/petronem/supamanio.git main
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
