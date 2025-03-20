@@ -1,0 +1,4 @@
+FROM busybox:latest
+WORKDIR /source
+COPY volumes/ .
+CMD ["sh", "-c", "cp -r /source/db/* /db-init/ && cp -r /source/api/* /kong-config/ && cp -r /source/logs/* /vector-config/ && cp -r /source/pooler/* /pooler-config/ && touch /storage-data/.placeholder"]
