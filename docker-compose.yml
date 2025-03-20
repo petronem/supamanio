@@ -110,12 +110,12 @@ services:
     # entrypoint: bash -c 'eval "echo \"$$(cat ~/kong.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
     entrypoint: >
       /bin/bash -c "
-        echo 'Substituting variables...' && \
+        echo 'Portainer env vars: ANON_KEY=${ANON_KEY} SERVICE_ROLE_KEY=${SERVICE_ROLE_KEY}' && \
         sed 's|\$SUPABASE_ANON_KEY|${SUPABASE_ANON_KEY}|g;s|\$SUPABASE_SERVICE_KEY|${SUPABASE_SERVICE_KEY}|g;s|\$DASHBOARD_USERNAME|${DASHBOARD_USERNAME}|g;s|\$DASHBOARD_PASSWORD|${DASHBOARD_PASSWORD}|g' /home/kong/temp.yml > /home/kong/kong.yml && \
         echo 'Generated kong.yml:' && cat /home/kong/kong.yml && \
-        echo 'Starting Kong...' && \
         /docker-entrypoint.sh kong docker-start
       "
+      
   auth:
     container_name: supabase-auth
     image: supabase/gotrue:v2.170.0
