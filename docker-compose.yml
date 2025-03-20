@@ -111,14 +111,14 @@ services:
     entrypoint: >
       /bin/bash -c "
         env && \
-        content=$(cat /home/kong/temp.yml) && \
-        echo \"${content//\\\$SUPABASE_ANON_KEY/${SUPABASE_ANON_KEY}}\" > /home/kong/temp2.yml && \
-        content=$(cat /home/kong/temp2.yml) && \
-        echo \"${content//\\\$SUPABASE_SERVICE_KEY/${SUPABASE_SERVICE_KEY}}\" > /home/kong/temp2.yml && \
-        content=$(cat /home/kong/temp2.yml) && \
-        echo \"${content//\\\$DASHBOARD_USERNAME/${DASHBOARD_USERNAME}}\" > /home/kong/temp2.yml && \
-        content=$(cat /home/kong/temp2.yml) && \
-        echo \"${content//\\\$DASHBOARD_PASSWORD/${DASHBOARD_PASSWORD}}\" > /home/kong/kong.yml && \
+        content=$$(cat /home/kong/temp.yml) && \
+        echo \"$${content//\\\$$SUPABASE_ANON_KEY/$${SUPABASE_ANON_KEY}}\" > /home/kong/temp2.yml && \
+        content=$$(cat /home/kong/temp2.yml) && \
+        echo \"$${content//\\\$$SUPABASE_SERVICE_KEY/$${SUPABASE_SERVICE_KEY}}\" > /home/kong/temp2.yml && \
+        content=$$(cat /home/kong/temp2.yml) && \
+        echo \"$${content//\\\$$DASHBOARD_USERNAME/$${DASHBOARD_USERNAME}}\" > /home/kong/temp2.yml && \
+        content=$$(cat /home/kong/temp2.yml) && \
+        echo \"$${content//\\\$$DASHBOARD_PASSWORD/$${DASHBOARD_PASSWORD}}\" > /home/kong/kong.yml && \
         /docker-entrypoint.sh kong docker-start
       "
       
