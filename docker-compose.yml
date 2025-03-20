@@ -2,7 +2,7 @@ name: supamanio
 
 services:
   setup:
-    image: petronem/supamanio:latest
+    image: petronem/supamanio-setup:latest
     volumes:
       - db-init-scripts:/db-init
       - kong-config:/kong-config
