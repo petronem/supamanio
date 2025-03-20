@@ -22,9 +22,9 @@ jobs:
           git remote add supabase-fork https://github.com/petronem/supabase.git
           git fetch supabase-fork
           if [ -d "volumes" ]; then
-            git subtree pull --prefix=volumes supabase-fork master --squash
+            git subtree pull --prefix=docker/volumes supabase-fork master --squash
           else
-            git subtree add --prefix=volumes supabase-fork master --squash
+            git subtree add --prefix=docker/volumes supabase-fork master --squash
           fi
         shell: bash
 
