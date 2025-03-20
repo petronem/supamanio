@@ -4,7 +4,7 @@ services:
   setup:
     image: petronem/supamanio-setup:latest
     volumes:
-      - db-init-scripts:/db-init
+      - db-init:/db-init
       - kong-config:/kong-config
       - vector-config:/vector-config
       - pooler-config:/pooler-config
