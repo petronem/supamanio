@@ -106,15 +106,16 @@ services:
       SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
       DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
       DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
-    # creates a corrupted file, possibly due to lack of {} 
-    # entrypoint: bash -c 'eval "echo \"$$(cat ~/kong.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
-    entrypoint: >
-      /bin/bash -c "
-        cat <<'EOF' > /home/kong/kong.yml
-        $$(cat /home/kong/temp.yml | sed 's|\\\$SUPABASE_ANON_KEY|$${SUPABASE_ANON_KEY}|g;s|\\\$SUPABASE_SERVICE_KEY|$${SUPABASE_SERVICE_KEY}|g;s|\\\$DASHBOARD_USERNAME|$${DASHBOARD_USERNAME}|g;s|\\\$DASHBOARD_PASSWORD|$${DASHBOARD_PASSWORD}|g')
-        EOF
-        /docker-entrypoint.sh kong docker-start
-      "
+  entrypoint: >
+    /bin/bash -c "
+      content=$$(cat /home/kong/temp.yml) && \
+      result=$${content//\\\$$SUPABASE_ANON_KEY/$${SUPABASE_ANON_KEY}} && \
+      result=$${result//\\\$$SUPABASE_SERVICE_KEY/$${SUPABASE_SERVICE_KEY}} && \
+      result=$${result//\\\$$DASHBOARD_USERNAME/$${DASHBOARD_USERNAME}} && \
+      result=$${result//\\\$$DASHBOARD_PASSWORD/$${DASHBOARD_PASSWORD}} && \
+      echo \"$$result\" > /home/kong/kong.yml && \
+      /docker-entrypoint.sh kong docker-start
+    "
       
   auth:
     container_name: supabase-auth
