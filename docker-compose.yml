@@ -8,7 +8,6 @@ services:
       - kong-config:/kong-config
       - vector-config:/vector-config
       - pooler-config:/pooler-config
-      - storage-data:/storage-data
     # debug
     command: tail -f /dev/null
     restart: "no"
@@ -340,7 +339,7 @@ services:
     restart: unless-stopped
     volumes:
       - db-data:/var/lib/postgresql/data
-      - db-init-scripts:/docker-entrypoint-initdb.d
+      - db-init:/docker-entrypoint-initdb.d
       - db-config:/etc/postgresql-custom
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres", "-h", "localhost"]
@@ -427,7 +426,7 @@ services:
 
 volumes:
   db-data:
-  db-init-scripts:
+  db-init:
   db-config:
   kong-config:
   vector-config:
