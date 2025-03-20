@@ -109,15 +109,15 @@ services:
     # creates a corrupted file, possibly due to lack of {} 
     # entrypoint: bash -c 'eval "echo \"$$(cat ~/kong.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
     entrypoint: >
-      /bin/bash -c '
+      /bin/bash -c "
         cat /home/kong/temp.yml | sed \
-          -e "s|\$SUPABASE_ANON_KEY|${SUPABASE_ANON_KEY}|g" \
-          -e "s|\$SUPABASE_SERVICE_KEY|${SUPABASE_SERVICE_KEY}|g" \
-          -e "s|\$DASHBOARD_USERNAME|${DASHBOARD_USERNAME}|g" \
-          -e "s|\$DASHBOARD_PASSWORD|${DASHBOARD_PASSWORD}|g" \
+          -e 's|\$SUPABASE_ANON_KEY|${SUPABASE_ANON_KEY}|g' \
+          -e 's|\$SUPABASE_SERVICE_KEY|${SUPABASE_SERVICE_KEY}|g' \
+          -e 's|\$DASHBOARD_USERNAME|${DASHBOARD_USERNAME}|g' \
+          -e 's|\$DASHBOARD_PASSWORD|${DASHBOARD_PASSWORD}|g' \
           > /home/kong/kong.yml && \
         /docker-entrypoint.sh kong docker-start
-      '
+      "
 
   auth:
     container_name: supabase-auth
