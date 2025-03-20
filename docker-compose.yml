@@ -8,8 +8,8 @@ services:
       - kong-config:/kong-config
       - vector-config:/vector-config
       - pooler-config:/pooler-config
-    # debug
-    command: tail -f /dev/null
+    # to debug uncomment, otherwise if there's a problem here no containers get created ergo no logs to look at
+    #command: tail -f /dev/null
     restart: "no"
 
   minio:
