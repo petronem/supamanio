@@ -110,15 +110,9 @@ services:
     # entrypoint: bash -c 'eval "echo \"$$(cat ~/kong.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
     entrypoint: >
       /bin/bash -c "
-        env && \
-        content=$$(cat /home/kong/temp.yml) && \
-        echo \"$${content//\\\$$SUPABASE_ANON_KEY/$${SUPABASE_ANON_KEY}}\" > /home/kong/temp2.yml && \
-        content=$$(cat /home/kong/temp2.yml) && \
-        echo \"$${content//\\\$$SUPABASE_SERVICE_KEY/$${SUPABASE_SERVICE_KEY}}\" > /home/kong/temp2.yml && \
-        content=$$(cat /home/kong/temp2.yml) && \
-        echo \"$${content//\\\$$DASHBOARD_USERNAME/$${DASHBOARD_USERNAME}}\" > /home/kong/temp2.yml && \
-        content=$$(cat /home/kong/temp2.yml) && \
-        echo \"$${content//\\\$$DASHBOARD_PASSWORD/$${DASHBOARD_PASSWORD}}\" > /home/kong/kong.yml && \
+        cat <<EOF > /home/kong/kong.yml
+        $$(cat /home/kong/temp.yml | sed 's|\\\$SUPABASE_ANON_KEY|$${SUPABASE_ANON_KEY}|g;s|\\\$SUPABASE_SERVICE_KEY|$${SUPABASE_SERVICE_KEY}|g;s|\\\$DASHBOARD_USERNAME|$${DASHBOARD_USERNAME}|g;s|\\\$DASHBOARD_PASSWORD|$${DASHBOARD_PASSWORD}|g')
+        EOF
         /docker-entrypoint.sh kong docker-start
       "
       
