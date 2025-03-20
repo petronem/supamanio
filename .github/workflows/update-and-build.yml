@@ -19,13 +19,20 @@ jobs:
 
       - name: Pull docker/volumes from Supabase Fork
         run: |
+          # Set up a temporary directory to fetch from supabase-fork
+          mkdir temp-repo
+          cd temp-repo
+          git init
           git remote add supabase-fork https://github.com/petronem/supabase.git
-          git fetch supabase-fork
-          if [ -d "volumes" ]; then
-            git subtree pull --prefix=volumes supabase-fork master --squash
-          else
-          git subtree add --prefix=volumes supabase-fork master --squash
-          fi
+          git config core.sparseCheckout true
+          echo "docker/volumes" > .git/info/sparse-checkout
+          git fetch supabase-fork master
+          git checkout supabase-fork/master -- docker/volumes
+          cd ..
+          # Move docker/volumes to volumes/ in the target repo root
+          [ -d volumes ] && rm -rf volumes  # Remove existing volumes/ if it exists
+          mv temp-repo/docker/volumes volumes
+          rm -rf temp-repo
         shell: bash
 
       - name: Commit Updated Volumes
