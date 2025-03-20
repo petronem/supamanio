@@ -108,13 +108,14 @@ services:
       DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
     # creates a corrupted file, possibly due to lack of {} 
     # entrypoint: bash -c 'eval "echo \"$$(cat ~/kong.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
-    entrypoint:
+    entrypoint: >
       /bin/bash -c '
-        cat /home/kong/temp.yml |
-        sed "s|\$SUPABASE_ANON_KEY|${SUPABASE_ANON_KEY}|g;
-             s|\$SUPABASE_SERVICE_KEY|${SUPABASE_SERVICE_KEY}|g;
-             s|\$DASHBOARD_USERNAME|${DASHBOARD_USERNAME}|g;
-             s|\$DASHBOARD_PASSWORD|${DASHBOARD_PASSWORD}|g" > /home/kong/kong.yml &&
+        cat /home/kong/temp.yml | sed \
+          -e "s|\$SUPABASE_ANON_KEY|${SUPABASE_ANON_KEY}|g" \
+          -e "s|\$SUPABASE_SERVICE_KEY|${SUPABASE_SERVICE_KEY}|g" \
+          -e "s|\$DASHBOARD_USERNAME|${DASHBOARD_USERNAME}|g" \
+          -e "s|\$DASHBOARD_PASSWORD|${DASHBOARD_PASSWORD}|g" \
+          > /home/kong/kong.yml && \
         /docker-entrypoint.sh kong docker-start
       '
 
