@@ -110,10 +110,15 @@ services:
     # entrypoint: bash -c 'eval "echo \"$$(cat ~/kong.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
     entrypoint: >
       /bin/bash -c "
-        printenv && \
-        echo 'u: ${DASHBOARD_USERNAME} p: ${DASHBOARD_PASSWORD} ' && \
-        sed 's|\$SUPABASE_ANON_KEY|${SUPABASE_ANON_KEY}|g;s|\$SUPABASE_SERVICE_KEY|${SUPABASE_SERVICE_KEY}|g;s|\$DASHBOARD_USERNAME|${DASHBOARD_USERNAME}|g;s|\$DASHBOARD_PASSWORD|${DASHBOARD_PASSWORD}|g' /home/kong/temp.yml > /home/kong/kong.yml && \
-        echo 'Generated kong.yml:' && cat /home/kong/kong.yml && \
+        env && \
+        content=$(cat /home/kong/temp.yml) && \
+        echo \"${content//\\\$SUPABASE_ANON_KEY/${SUPABASE_ANON_KEY}}\" > /home/kong/temp2.yml && \
+        content=$(cat /home/kong/temp2.yml) && \
+        echo \"${content//\\\$SUPABASE_SERVICE_KEY/${SUPABASE_SERVICE_KEY}}\" > /home/kong/temp2.yml && \
+        content=$(cat /home/kong/temp2.yml) && \
+        echo \"${content//\\\$DASHBOARD_USERNAME/${DASHBOARD_USERNAME}}\" > /home/kong/temp2.yml && \
+        content=$(cat /home/kong/temp2.yml) && \
+        echo \"${content//\\\$DASHBOARD_PASSWORD/${DASHBOARD_PASSWORD}}\" > /home/kong/kong.yml && \
         /docker-entrypoint.sh kong docker-start
       "
       
