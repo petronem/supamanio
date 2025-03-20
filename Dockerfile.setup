@@ -1,4 +1,4 @@
 FROM busybox:latest
 WORKDIR /source
 COPY volumes/ .
-CMD ["sh", "-c", "cp -r /source/db/* /db-init/ && cp -r /source/api/* /kong-config/ && mv /kong-config/kong.yml /home-config/temp.yml && cp -r /source/logs/* /vector-config/ && cp -r /source/pooler/* /pooler-config/ && touch /storage-data/.placeholder"]
+CMD ["sh", "-c", "cp /source/db/realtime.sql /db-init/migrations/99-realtime.sql && cp /source/db/webhooks.sql /db-init/init-scripts/98-webhooks.sql && cp /source/db/roles.sql /db-init/init-scripts/99-roles.sql && cp /source/db/jwt.sql /db-init/init-scripts/99-jwt.sql && cp /source/db/_supabase.sql /db-init/migrations/97-_supabase.sql && cp /source/db/logs.sql /db-init/migrations/99-logs.sql && cp /source/db/pooler.sql /db-init/migrations/99-pooler.sql && cp -r /source/api/* /kong-config/ && mv /kong-config/kong.yml /home-config/temp.yml && cp -r /source/logs/* /vector-config/ && cp -r /source/pooler/* /pooler-config/ && touch /storage-data/.placeholder"]
