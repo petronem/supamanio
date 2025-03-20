@@ -106,16 +106,16 @@ services:
       SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
       DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
       DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
-  entrypoint: >
-    /bin/bash -c "
-      content=$$(cat /home/kong/temp.yml) && \
-      result=$${content//\\\$$SUPABASE_ANON_KEY/$${SUPABASE_ANON_KEY}} && \
-      result=$${result//\\\$$SUPABASE_SERVICE_KEY/$${SUPABASE_SERVICE_KEY}} && \
-      result=$${result//\\\$$DASHBOARD_USERNAME/$${DASHBOARD_USERNAME}} && \
-      result=$${result//\\\$$DASHBOARD_PASSWORD/$${DASHBOARD_PASSWORD}} && \
-      echo \"$$result\" > /home/kong/kong.yml && \
-      /docker-entrypoint.sh kong docker-start
-    "
+    entrypoint: >
+      /bin/bash -c "
+        content=$$(cat /home/kong/temp.yml) && \
+        result=$${content//\\\$$SUPABASE_ANON_KEY/$${SUPABASE_ANON_KEY}} && \
+        result=$${result//\\\$$SUPABASE_SERVICE_KEY/$${SUPABASE_SERVICE_KEY}} && \
+        result=$${result//\\\$$DASHBOARD_USERNAME/$${DASHBOARD_USERNAME}} && \
+        result=$${result//\\\$$DASHBOARD_PASSWORD/$${DASHBOARD_PASSWORD}} && \
+        echo \"$$result\" > /home/kong/kong.yml && \
+        /docker-entrypoint.sh kong docker-start
+      "
       
   auth:
     container_name: supabase-auth
