@@ -111,8 +111,8 @@ services:
     entrypoint: >
       /bin/bash -c "
         cat <<'EOF' > /home/kong/kong.yml
-    $$(cat /home/kong/temp.yml | sed 's|\\\$SUPABASE_ANON_KEY|$${SUPABASE_ANON_KEY}|g;s|\\\$SUPABASE_SERVICE_KEY|$${SUPABASE_SERVICE_KEY}|g;s|\\\$DASHBOARD_USERNAME|$${DASHBOARD_USERNAME}|g;s|\\\$DASHBOARD_PASSWORD|$${DASHBOARD_PASSWORD}|g')
-    EOF
+        $$(cat /home/kong/temp.yml | sed 's|\\\$SUPABASE_ANON_KEY|$${SUPABASE_ANON_KEY}|g;s|\\\$SUPABASE_SERVICE_KEY|$${SUPABASE_SERVICE_KEY}|g;s|\\\$DASHBOARD_USERNAME|$${DASHBOARD_USERNAME}|g;s|\\\$DASHBOARD_PASSWORD|$${DASHBOARD_PASSWORD}|g')
+        EOF
         /docker-entrypoint.sh kong docker-start
       "
       
