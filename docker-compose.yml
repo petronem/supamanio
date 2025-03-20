@@ -9,6 +9,8 @@ services:
       - vector-config:/vector-config
       - pooler-config:/pooler-config
       - storage-data:/storage-data
+    # debug
+    command: tail -f /dev/null
     restart: "no"
 
   minio:
