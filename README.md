@@ -23,6 +23,15 @@ Supamanio is derived from [Supabase](https://github.com/supabase/supabase), lice
 ****************************************************
 ## Setup Instructions
 
+See Supabase for Docker Self-Hosted Setup: https://supabase.com/docs/guides/self-hosting/docker
+
+Add New Stack->paste this repo url->select docker-compose.yml
+Go to Advanced mode for environment variables & paste .env.example then edit accordingly
+then deploy stack
+
+optional setup nginx-proxy-manager for published ports
+optional but recommended for public facing service, setup nginx-proxy-manager with Let's Encrypt
+(fyi, you can use Let's Encrypt for an internal network...)
 
 Accessing Services
 Supabase Studio: http://<your-host-ip>:8000
