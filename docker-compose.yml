@@ -40,7 +40,7 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set supa-minio http://minio:9000 ${MINIO_USER} ${MINIO_PASSWORD};
-      /usr/bin/mc mb supa-minio/stub;
+      /usr/bin/mc mb supa-minio/${GLOBAL_S3_BUCKET};
       exit 0;
       "
 
